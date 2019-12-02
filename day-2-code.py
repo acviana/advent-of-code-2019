@@ -32,6 +32,7 @@ def intcode(instructions):
                 f'at position {opcode_position}'
             )
 
+
 def run_intcode(noun, verb):
     with open('day-2-input.txt', 'r') as f:
         data = f.readline().strip().split(',')
