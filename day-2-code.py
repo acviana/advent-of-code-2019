@@ -32,14 +32,21 @@ def intcode(instructions):
                 f'at position {opcode_position}'
             )
 
-def run_intcode():
+def run_intcode(noun, verb):
     with open('day-2-input.txt', 'r') as f:
         data = f.readline().strip().split(',')
     data = [int(item) for item in data]
-    data[1] = 12
-    data[2] = 2
+    data[1] = noun
+    data[2] = verb
     result = intcode(data)
     return result[0]
+
+
+def solve_intcode():
+    for noun in range(0, 100):
+        for verb in range(0, 100):
+            if run_intcode(noun, verb) == 19690720:
+                return noun, verb
 
 
 def test_intcode():
@@ -50,5 +57,11 @@ def test_intcode():
     assert intcode([1,9,10,3,2,3,11,0,99,30,40,50]) == [3500,9,10,70,2,3,11,0,99,30,40,50]
 
 
+def test_run_intcode():
+    assert run_intcode(noun=12, verb=2) == 4023471
+
+
 if __name__ == '__main__':
-    print(run_intcode())
+    print(f'Part 1: output is {run_intcode(noun=12, verb=2)}')
+    noun, verb = solve_intcode()
+    print(f'Part 2: Noun is {noun}, Verb is {verb}, answer is {100 * noun + verb}')
