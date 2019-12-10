@@ -36,43 +36,29 @@ def password_check(password, version, lower_limit=100000, upper_limit=999999):
         for digit in range(len(string_password) - 1):
             if string_password[digit] == string_password[digit + 1]:
                 repeat_digits = True
+                break
         if repeat_digits is False:
             return False
     elif version == 2:
-        # print(f'Password is {password}')
         repeat_digits = False
         for digit in range(len(string_password) - 1):
-            # print(f'Index is {digit}, value is {string_password[digit]}')
             if string_password[digit] == string_password[digit + 1]:
-                # print(
-                #     f'Potential match found at index {digit}, '
-                #     f'value {string_password[digit]} next value value {string_password[digit + 1]}')
-                try:
-                    if string_password[digit] != string_password[digit + 2]:
-                        repeat_digits = True
-                except IndexError:
-                    if string_password[digit] != string_password[digit - 1]:
-                        repeat_digits = True
+                # Check ahead
+                if digit != 4:
+                    if string_password[digit] == string_password[digit + 2]:
+                        continue
+                # Check behind
+                if digit != 0:
+                    if string_password[digit] == string_password[digit -1]:
+                        continue
+                repeat_digits = True
+                break
         if repeat_digits is False:
             return False
     else:
         raise KeyError(f'Version value of {version} is not allowed')
 
     return True
-
-
-def test_password_check_v1():
-    assert password_check(1, version=1) is False
-    assert password_check(1111111, version=1) is False
-    assert password_check(111111, version=1) is True
-    assert password_check(223450, version=1) is False
-    assert password_check(123789, version=1) is False
-
-
-def test_password_check_v2():
-    assert password_check(112233, version=2) is True
-    assert password_check(123444, version=2) is False
-    assert password_check(111122, version=2) is True
 
 
 def main(lower_limit, upper_limit, version):
